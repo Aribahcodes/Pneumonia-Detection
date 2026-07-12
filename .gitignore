@@ -1,0 +1,31 @@
+# Data
+data/raw/
+data/cache/
+*.dcm
+
+# Models
+models/*.pt
+models/*.pth
+models/*.ckpt
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Experiment tracking
+runs/
+wandb/
+mlruns/
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
+# Streamlit
+.streamlit/secrets.toml
