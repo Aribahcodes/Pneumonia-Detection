@@ -18,6 +18,7 @@ The RSNA dataset was chosen over more commonly used chest X-ray datasets (e.g. K
 specifically for its DICOM format, bounding-box annotations, and clinical provenance.
 
 ## Project Structure
+```
 ├── data/
 │   ├── raw/            # untouched kagglehub download (gitignored)
 │   ├── processed/       # patient-level resolved labels (labels.csv)
@@ -44,6 +45,7 @@ specifically for its DICOM format, bounding-box annotations, and clinical proven
 │   └── streamlit_app.py
 ├── models/     # saved checkpoints (gitignored)
 └── outputs/    # figures and metrics for writeup
+```
 
 ## Dataset
 
