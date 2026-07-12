@@ -2,6 +2,10 @@
 data/raw/
 data/cache/
 *.dcm
+*.npy
+
+# Data we DO want tracked (small, reproducibility-relevant) — not ignored:
+# data/processed/, data/splits/
 
 # Models
 models/*.pt

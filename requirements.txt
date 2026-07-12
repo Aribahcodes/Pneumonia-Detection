@@ -5,6 +5,8 @@ pandas
 numpy
 scikit-learn
 matplotlib
+pillow
+tqdm
 streamlit
 grad-cam
 kagglehub
