@@ -12,9 +12,9 @@ Deep learning pipeline for detecting pneumonia from chest X-ray images, built on
 
 ## Motivation
 
-This project explores medical image classification end-to-end: 
-From raw DICOM handling and class imbalance, through model training, to explainability and deployment. 
-The RSNA dataset was chosen over more commonly used chest X-ray datasets (e.g. Kaggle's Paul Mooney set) 
+This project explores medical image classification end-to-end:
+From raw DICOM handling and class imbalance, through model training, to explainability and deployment.
+The RSNA dataset was chosen over more commonly used chest X-ray datasets (e.g. Kaggle's Paul Mooney set)
 specifically for its DICOM format, bounding-box annotations, and clinical provenance.
 
 ## Project Structure
@@ -27,7 +27,7 @@ specifically for its DICOM format, bounding-box annotations, and clinical proven
 ├── notebooks/
 │   ├── 01_explore_data.ipynb      # EDA, label resolution, stratified split
 │   ├── 02_dataset_pipeline.ipynb  # DICOM Dataset class, transforms, caching
-│   ├── 03_model_training.ipynb
+│   ├── 03_model_training.ipynb    # DenseNet121, freeze/finetune/progressive comparison
 │   ├── 04_evaluation_metrics.ipynb
 │   ├── 05_gradcam_explainability.ipynb
 │   └── 06_visualize_predictions.ipynb
@@ -35,8 +35,8 @@ specifically for its DICOM format, bounding-box annotations, and clinical proven
 │   ├── preprocessing.py   # label mapping, patient-level label resolution, caching, transforms
 │   ├── dataset.py         # DICOM-aware PyTorch Dataset (cache-enabled)
 │   ├── utils.py            # kagglehub path resolution
-│   ├── model.py            # (Phase 3)
-│   ├── train.py            # (Phase 3)
+│   ├── model.py            # DenseNet121 w/ freeze/fine-tune toggle
+│   ├── train.py            # train/validate epoch loops, multi-epoch training wrapper
 │   ├── evaluate.py         # (Phase 4)
 │   └── gradcam.py          # (Phase 5)
 ├── configs/
@@ -46,7 +46,6 @@ specifically for its DICOM format, bounding-box annotations, and clinical proven
 ├── models/     # saved checkpoints (gitignored)
 └── outputs/    # figures and metrics for writeup
 ```
-
 ## Dataset
 
 RSNA Pneumonia Detection Challenge dataset (~26,684 training DICOMs), downloaded via
@@ -75,6 +74,10 @@ configured for `kagglehub` to authenticate.
   resized once, then cached as `.npy`, avoiding repeated decode cost every epoch.
 - **ImageNet-pretrained backbone**: grayscale X-rays are replicated to 3 channels and
   normalized with ImageNet mean/std to work with a pretrained DenseNet121.
+- **Fine-tuning strategy comparison**: frozen backbone, full fine-tune, and progressive
+  unfreezing were each trained and compared on validation accuracy. Full fine-tune
+  (lr=1e-4) performed best, reaching ~72% val accuracy after 5 epochs — outperforming
+  both frozen (~64%) and progressive unfreezing (~70% over 8 epochs).
 
 ## Setup
 
@@ -91,14 +94,15 @@ from `src/` for reusable pipeline code.
 
 - ✅ **Phase 1** — Dataset setup, EDA, label resolution, stratified split
 - ✅ **Phase 2** — DICOM dataset pipeline, transforms, augmentation, caching, bbox validation
-- ⬜ Phase 3 — Model architecture & training
+- ✅ **Phase 3** — Model architecture, freeze/fine-tune/progressive-unfreeze comparison
 - ⬜ Phase 4 — Evaluation metrics
 - ⬜ Phase 5 — Grad-CAM explainability
 - ⬜ Phase 6 — Deployment (Streamlit app)
 
 ## Results
 
-_(to be filled in after training/evaluation)_
+_(to be filled in after evaluation — accuracy-based model selection above is provisional;
+final model choice pending per-class recall analysis in Phase 4)_
 
 ## Demo
 
